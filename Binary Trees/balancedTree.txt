@@ -1,0 +1,30 @@
+
+class Solution{
+    public:
+    
+    int getHeight(Node* root){
+        if(!root) return 0;
+        
+        int l=getHeight(root->left);
+        int r=getHeight(root->right);
+        
+        return max(l,r)+1;
+    }
+    
+    //Function to check whether a binary tree is balanced or not.
+    bool isBalanced(Node *root)
+    {
+        //  Your Code here
+        if(!root) return true;
+        
+          bool leftBalanced = isBalanced(root->left);
+    // Check if the right subtree is balanced
+    bool rightBalanced = isBalanced(root->right);
+        
+        int lh=getHeight(root->left);
+        int rh=getHeight(root->right);
+        
+        return leftBalanced && rightBalanced && abs(lh-rh)<=1?1:0;
+        
+    }
+};

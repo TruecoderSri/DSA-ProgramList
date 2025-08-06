@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        int n=nums.size();
+        queue<pair<int,int>> q;
+        vector<int> ans;
+        q.push({0,0});
+
+                               // BFS traversal
+        while(!q.empty()){
+            int s=q.size();
+            while(s--){
+                auto [i,j]=q.front();
+                q.pop();
+                ans.push_back(nums[i][j]);
+                
+                if(j==0 && i+1<n)
+                q.push({i+1,j});
+
+                if(j+1<nums[i].size())
+                q.push({i,j+1});
+            }
+        }
+            return ans;
+        }
+};

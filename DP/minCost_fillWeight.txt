@@ -1,0 +1,28 @@
+Unlimited supply of each index so find the min cost to achieve W weight of the oranges. where a weight is incurred of the index it is on.  
+
+int solve(int ind,int weight,vector<int> cost,vector<vector<int>> &dp){
+        if(weight==0) return 0;
+        
+        if(ind==cost.size() || ind+1 >weight){
+            return 1e9;
+        }
+        if(dp[ind][weight]!=-1) return dp[ind][weight];
+        
+        int a,b;
+        
+        if(cost[ind] !=-1){
+            a  = cost[ind] + solve(ind,weight -(ind+1),cost,dp);
+        }
+        
+        b = solve(ind+1,weight,cost,dp);
+        
+        return dp[ind][weight] = min(a,b);
+    }
+  
+    int minimumCost(int n, int w, vector<int> &cost) {
+        // code here
+      vector<vector<int>> dp(n+1,vector<int>(w+1,-1));
+      
+      int ans=solve(0,w,cost,dp);
+      return ans>=1e9?-1:ans;
+    }

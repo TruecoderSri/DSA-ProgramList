@@ -1,0 +1,59 @@
+class Solution {
+public:
+
+
+// find smallest on the left,then smallest on the right then  find the max of the corresponding mul of elements
+    vector<int> nsl(vector<int>&nums){
+
+        vector<int> res;
+        stack<int> s; 
+        for(int i=0;i<nums.size();i++){
+            while(!s.empty() && nums[s.top()]>=nums[i]){
+                s.pop();
+            }
+            if(s.empty()){
+                res.push_back(-1);
+            }
+            else{
+                res.push_back(s.top());
+            }
+            s.push(i);
+        }
+        return res;
+    }
+
+    vector<int> nsr(vector<int>&nums){
+
+        vector<int> res;
+        stack<int> s; 
+        for(int i=nums.size()-1;i>=0;i--){
+            while(!s.empty() && nums[s.top()]>=nums[i]){
+                s.pop();
+            }
+            if(s.empty()){
+                res.push_back(nums.size());
+            }
+            else{
+                res.push_back(s.top());
+            }
+            s.push(i);
+        }
+        return res;
+    }
+
+    int maximumScore(vector<int>& nums, int k) {
+     vector<int> left=nsl(nums);
+     vector<int> right=nsr(nums);
+     reverse(right.begin(),right.end());
+    
+     int ans=0;
+     for(int i=0;i<nums.size();i++){
+         int l=left[i];
+         int r=right[i];
+         if(l+1<=k && r-1>=k)
+         ans=max(ans, nums[i]*(r-l-1));
+     }
+
+    return ans;
+    }
+};

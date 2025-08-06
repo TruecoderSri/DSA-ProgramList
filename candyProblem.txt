@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n=ratings.size();
+        vector<int> storeL(n+1,1);
+
+        // Step 1 : check from left side
+
+        for(int i=1;i<n;i++){
+           if(ratings[i]>ratings[i-1])
+          storeL[i]=storeL[i-1]+1;
+        } 
+        
+        vector<int> storeR(n+1,1);
+
+        // Step 2: check from right side
+
+        for(int i=n-2;i>=0;i--){
+           if(ratings[i]>ratings[i+1])
+           storeR[i]=storeR[i+1]+1;
+
+        
+        }
+
+     // take max from each index and store in vector
+         vector<int>tmp(n);
+            int sum=0;
+          for(int i=0;i<n;i++){
+           tmp[i]=max(storeL[i],storeR[i]);
+           sum+=tmp[i];
+     }
+     return sum;
+    }
+};

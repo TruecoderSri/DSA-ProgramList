@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin >> n;
+    n = abs(n);
+    int temp = n;
+    int pos = 0, res = 0;
+    while (temp)
+    {
+        if (temp & 1)
+            res += n << pos;
+        pos++;
+        temp >>= 1;
+    }
+    cout << res << endl;
+    return 0;
+}

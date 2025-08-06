@@ -1,0 +1,62 @@
+ // Full-proof solution for EC or EP
+
+    void dfs(int node,vector<bool>&vis,vector<int> adj[]){
+        
+        vis[node]=true;
+        
+        for(auto it:adj[node]){
+            if(!vis[it]){
+                dfs(it,vis,adj);
+            }
+        }
+    }
+    
+    bool isConnected(int V,vector<int>adj[]){
+        
+        int stNode=-1;
+        
+        for(int i=0;i<V;i++){
+            if(adj[i].size()!=0){
+                stNode=i;
+                break;
+            }
+        }
+        
+        vector<bool> vis(V,false);
+         dfs(stNode,vis,adj);
+         
+         for(int i=0;i<V;i++){
+             if(!vis[i] && adj[i].size() > 0){
+                 return false;
+             }
+         }
+        return true;
+        
+    }
+
+	int isEulerCircuit(int V, vector<int>adj[]){
+	    
+	   /* Conditions
+	    
+	    1) The graph with all non-zero degree nodes should be connected
+	    2) count of odd vertices condition    */
+	    
+	    if(isConnected(V,adj)==false) return 0;
+	    
+	   // get count of odd degree nodes
+	   
+	   int cnt=0;
+	   
+	   for(int i=0;i<V;i++){
+	       if(adj[i].size()%2!=0)
+	       cnt++;
+	   }
+	   
+	   if(cnt>2) return 0; //none
+	   
+	   if(cnt==2)  return 1; // Euler-Path
+	   
+	   return 2;  // Euler-Circuit
+	   
+	    
+	}

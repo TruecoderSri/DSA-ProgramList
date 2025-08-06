@@ -1,0 +1,38 @@
+	
+	public:
+	
+// 	use 2 num and index positions to shuffle without extra space
+	
+	void shuffleArray(int arr[],int n)
+	{
+	    // Your code goes here
+	        
+	   for(int i=0;i<n;++i){
+	        
+	        int currNum=arr[i];
+	        int currPos=i;
+	        
+	        while(currNum>0){
+	            
+	            int newPos;
+	            
+	            if(currPos<n/2){
+	                newPos=2*currPos;
+	            }
+	            else{
+	                newPos=2*(currPos-n/2)+1;
+	            }
+	            int newNum=arr[newPos];
+	            arr[newPos]=-currNum;
+	            currNum=newNum;
+	            currPos=newPos;
+	        }
+	    }
+	    
+	     for(int i=0;i<n;i++){
+	         if(arr[i]<0)
+	         arr[i]=-arr[i];
+	     }
+	    
+	}
+		

@@ -1,0 +1,43 @@
+int maxSumAfterPartitioning(vector<int>& arr, int k, vector<int>& memo, int idx) {
+    if (idx == arr.size()) {
+        return 0;
+    }
+
+    if (memo[idx] != -1) {
+        return memo[idx];
+    }
+
+    int max_val = INT_MIN;
+    int maxSum = 0;
+
+    for (int j = 1; j <= k && idx + j <= arr.size(); ++j) {
+        max_val = max(max_val, arr[idx + j - 1]);
+        maxSum = max(maxSum, max_val * j + maxSumAfterPartitioning(arr, k, memo, idx + j));
+    }
+
+    memo[idx] = maxSum;
+    return maxSum;
+}
+
+int maxSumAfterPartitioning(vector<int>& arr, int k) {
+    int n=arr.size();
+    vector<int> dp(n+1, 0);
+   
+   for(int idx=n-1;idx>=0;idx--){     // front partitioning
+
+    int max_val = INT_MIN,len=0;
+    int maxSum = 0;
+    for (int j = idx; j < min(idx + k,n); ++j) {
+       len++;
+       max_val=max(max_val,arr[j]);
+       maxSum= max(maxSum , len*max_val+ dp[j+1]);
+    }
+    dp[idx]=maxSum;
+   }
+    
+    return dp[0];
+    
+   
+}
+
+};

@@ -1,0 +1,44 @@
+
+/*
+struct Node {
+	int key;
+	Node *left, *right;
+};
+*/
+
+TC:O(N)
+SC:O(height_of_tree)
+
+class Solution
+{
+    public:
+    
+    int solve(Node *root,int &moves){
+        
+        if(!root) return 0;
+        
+        int l = solve(root->left,moves);
+        
+        int r = solve(root->right,moves);
+    
+        moves += abs(l) + abs(r) ;   // sum total he distributes to his left and right child/parent
+            // independent of direction just calculate movement
+        return (l + r + root->key) -1 ;   // -1 because he has to keep 1 for himself   
+    }
+    
+    int distributeCandy(Node* root)
+    {
+        //code here
+        int moves=0;
+        solve(root,moves);
+        return moves;
+    }
+};
+
+
+
+start of ourney,date,time
+end of journey, date,time
+no of passenger (Above 2 years)
+others blank field
+

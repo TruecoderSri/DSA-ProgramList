@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int N,K;
+
+    int solve(int prev,int ind,vector<int>&nums,vector<vector<int>>&dp){
+        if(ind>=N) return 0;
+
+         if(dp[ind][prev]!=-1) return dp[ind][prev];
+          int result=0;
+        if(prev==-1||(ind-prev)<=K){
+
+            int take=nums[ind]+solve(ind,ind+1,nums,dp);
+            int not_take= solve(prev,ind+1,nums,dp);
+
+            result=max(take,not_take);
+        }
+
+        return dp[ind][prev]=result;
+    }
+    int constrainedSubsetSum(vector<int>& nums, int k) {
+        int n=nums.size();
+        
+        // maintain an array temp with initial nums value then traverse from 1st index and check for max subsequence sum till that index
+        
+        vector<int> v=nums;
+        priority_queue<pair<int,int>> pq;
+        pq.push({nums[0],0});
+          int result=nums[0];
+        for(int i=1;i<n;i++){
+              while(!pq.empty() && i-pq.top().second>k){
+                  pq.pop();
+              }
+              v[i]=max(v[i],nums[i]+pq.top().first);
+              pq.push({v[i],i});
+             result=max(result,v[i]);
+        }
+        return result;
+    }
+};

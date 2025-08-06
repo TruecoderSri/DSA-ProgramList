@@ -1,0 +1,30 @@
+// low and high pointers and 3 variables low,mid,high
+
+public static void sort(char[] array)
+	{
+	  int low=0;
+	  int mid=0;
+	  int high=array.Length-1;
+	  while(mid<=high){
+		  if(array[mid]=='R'){
+			  swap(array,low,mid);
+			  low++;
+			  mid++;
+		  }
+		  else if(array[mid]=='G'){
+			  mid++;
+		  }
+		  else{
+			  swap(array,mid,high);
+			  high--;
+		  }
+		  
+	  }
+	}
+
+	private static void swap(char[] array, int idx1, int idx2)
+	{
+		char temp = array[idx1];
+		array[idx1] = array[idx2];
+		array[idx2] = temp;
+	}

@@ -1,0 +1,43 @@
+int numBusesToDestination(vector<vector<int>>& routes, int src, int dest) {
+
+         if(src==dest) return 0;   
+
+        unordered_map<int, vector<int>> mp;
+        int n = routes.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < routes[i].size(); j++) {
+                mp[routes[i][j]].push_back(i);
+            }
+        }
+        queue<int> q; // to store the route_num
+        unordered_map<int, int> vis; // to avoid revisitation of a stop
+
+        for (auto it : mp[src]) {
+            q.push(it);
+            vis[it] = 1;
+        }
+        int count = 1;
+        while (!q.empty()) {
+            int size = q.size();
+
+            while (size--) {
+
+                auto route = q.front();
+                q.pop();
+
+                for (auto stop : routes[route]) {
+                    if (stop == dest)
+                        return count;
+
+                    for (auto next : mp[stop]) {
+                        if (!vis[next]) {
+                            q.push(next);
+                            vis[next] = 1;
+                        }
+                    }
+                }
+            }
+            count++;   //since one of the route is now visited
+        }
+        return -1;
+    }

@@ -1,0 +1,41 @@
+You are given an array arr of size n. You have to remove a subarray of size k , such that the difference between the maximum and minimum values of the remaining array is minimized.
+Find the minimum value obtained after performing the operation of the removal of the subarray and return it. 
+
+
+int minimizeDifference(int n, int k, vector<int> &arr) {
+        // code here
+        vector<int> rightmx(n,0),rightmn(n,0);
+        rightmx[n-1]=arr[n-1];
+        rightmn[n-1]=arr[n-1];
+        for(int i=n-2;i>=0;i--){
+            rightmx[i] = max(rightmx[i+1],arr[i]);
+            rightmn[i]=min(rightmn[i+1],arr[i]);
+        }
+        
+        int mx=INT_MIN,mn=INT_MAX,ans=INT_MAX,i=0,j=k-1;
+        
+        while(j<n){
+            
+            // account for the left window
+            if(i!=0){
+                mx=max(mx,arr[i-1]);
+                mn=min(mn,arr[i-1]);
+            }
+            int temp1=mx,temp2=mn;
+            // Account for right window
+            
+            if(j!=n-1){
+                temp1=max(temp1,rightmx[j+1]);
+                temp2=min(temp2,rightmn[j+1]);
+            }
+            
+            ans =min(ans,temp1-temp2);
+            i++;
+            j++;
+            
+            /* i-1 and j+1 signigy that we have window from i-->j 
+            means we need to consider till i-1 and from j+1 */
+        }
+        return ans;
+        
+    }

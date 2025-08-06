@@ -1,0 +1,97 @@
+Merge Intervals
+
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        int n = intervals.size();
+        if (n <= 1) {
+            return intervals; // No merging needed for 0 or 1 interval
+        }
+
+        sort(intervals.begin(), intervals.end()); // Sort intervals based on the start time
+
+        vector<vector<int>> mergedIntervals;
+        mergedIntervals.push_back(intervals[0]); // Add the first interval
+
+        for (int i = 1; i < n; ++i) {
+            if (mergedIntervals.back()[1] >= intervals[i][0]) {
+                // Merge overlapping intervals
+                mergedIntervals.back()[1] = max(mergedIntervals.back()[1], intervals[i][1]);
+            } else {
+                // Add a new interval
+                mergedIntervals.push_back(intervals[i]);
+            }
+        }
+
+        return mergedIntervals;
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Non-Overlapping Intervals
+
+
+class Solution {
+public:
+
+    static bool comp(vector<int> &a,vector<int> &b){
+        return a[1]<b[1];
+    }
+
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        
+        int n=intervals.size();
+        int i=1;
+        sort(intervals.begin(),intervals.end(),comp);
+        int cnt=1;
+        int prev=0;
+        for(int i=1;i<n;i++){
+            if(intervals[prev][1]<=intervals[i][0]){ //tells how many intervals are correct
+                prev=i;
+                cnt++;
+            }
+        }
+       return n-cnt;
+    }
+};
+ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Insert Interval
+
+
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+       
+       vector<vector<int>> ans;
+
+       int i=0;
+
+       while(i<intervals.size()){
+
+           if(intervals[i][1] < newInterval[0])
+            ans.push_back(intervals[i]);
+
+            else if(intervals[i][0] >newInterval[1])
+             break;
+            else{
+            newInterval[0] = min(intervals[i][0],newInterval[0]);
+            newInterval[1]=max(intervals[i][1],newInterval[1]);
+
+            }
+            i++;
+       }
+          ans.push_back(newInterval);
+
+          while(i<intervals.size()){
+
+          ans.push_back(intervals[i]);
+            i++;
+          }
+
+          return ans;
+  
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

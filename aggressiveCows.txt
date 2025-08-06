@@ -1,0 +1,36 @@
+int calc(vector<int> &stalls,int mid,int n,int k){
+        
+        int lastPos=stalls[0];
+        int cnt=1;
+        
+        for(int i=1;i<n;i++){
+            
+            if (stalls[i]-lastPos>=mid){
+                cnt++;
+                lastPos =stalls[i];
+            }
+                if(cnt == k) return true;
+        }
+        return false;
+    }
+    
+    int solve(int n, int k, vector<int> &stalls) {
+    
+        // Write your code here
+        sort(stalls.begin(),stalls.end());
+        int ans=0;
+        int low = 1,high=stalls[n-1]-stalls[0];
+        
+        while(low<=high){
+            int mid = (low+high)>>1;
+            
+            if(calc(stalls,mid,n,k)){
+                ans = mid;
+                low =mid+1;
+            }else{
+                high =mid-1;
+            }
+            
+        }
+        return ans;
+    }

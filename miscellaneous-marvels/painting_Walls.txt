@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int paintWalls(vector<int>& cost, vector<int>& time) {
+        int n = cost.size();
+        // dp(Ind,Rem)
+        vector<vector<int>> dp(n + 1, vector(n + 1, 0));  // Create a 2D DP table.
+
+        // Initialize the base case when no walls are left.
+        for (int i = 1; i <= n; i++) {
+            dp[n][i] = 1e9;  // Set a large value to indicate infeasibility.
+        }
+
+        // Fill in the DP table from the end to the beginning.
+        for (int i = n - 1; i >= 0; i--) {
+            for (int remain = 1; remain <= n; remain++) {
+                // Calculate the cost of painting the current wall.
+                int paint = cost[i] + dp[i + 1][max(0, remain - 1 - time[i])];
+                
+                // Calculate the cost of not painting the current wall.
+                int dontPaint = dp[i + 1][remain];
+
+                // Store the minimum cost for the current state.
+                dp[i][remain] = min(paint, dontPaint);
+            }
+        }
+
+        return dp[0][n];  // The minimum cost is found in the initial state.
+    }
+};

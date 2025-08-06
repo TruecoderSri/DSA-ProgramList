@@ -1,0 +1,78 @@
+class Solution {
+public:
+
+You are given an integer n. There are n rooms numbered from 0 to n - 1.
+
+You are given a 2D integer array meetings where meetings[i] = [starti, endi] means that a meeting will be held during the half-closed time interval [starti, endi). All the values of starti are unique.
+
+Meetings are allocated to rooms in the following manner:
+
+Each meeting will take place in the unused room with the lowest number.
+If there are no available rooms, the meeting will be delayed until a room becomes free. The delayed meeting should have the same duration as the original meeting.
+When a room becomes unused, meetings that have an earlier original start time should be given the room.
+Return the number of the room that held the most meetings. If there are multiple rooms, return the room with the lowest number.
+
+A half-closed interval [a, b) is the interval between a and b including a and not including b.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int mostBooked(int n, std::vector<std::vector<int>>& meetings) {
+        // Initialize two vectors to keep track of the number of meetings in each room and their end times.
+        std::vector<int> ans(n, 0); 
+        std::vector<long long> times(n, 0);
+
+        // Sort the meetings based on their start times.
+        std::sort(meetings.begin(), meetings.end());
+
+        // Iterate through each meeting.
+        for (const auto& meeting : meetings) {
+            int st = meeting[0];  // Start time of the meeting.
+            int end = meeting[1]; // End time of the meeting.
+
+            bool flag = false;    // Flag to check if a room is available.
+            int minidx = -1;      // Index of the room with the earliest available time.
+            long long val = 1e18; // Initialize a large value.
+
+            // Iterate through each room to find the first available room.
+            for (int j = 0; j < n; j++) {
+                // Update minidx and val if the current room has an earlier available time.
+                if (times[j] < val) {
+                    val = times[j];
+                    minidx = j;
+                }
+
+                // If the room is available at the start time, assign the meeting to that room.
+                if (times[j] <= st) {
+                    flag = true;
+                    ans[j]++;
+                    times[j] = end;
+                    break;
+                }
+            }
+
+            // If no room is available at the start time, assign the meeting to the room with the earliest available time.
+            if (!flag) {
+                ans[minidx]++;
+                times[minidx] += static_cast<long long>(end - st);
+            }
+        }
+
+        // Find the room with the maximum number of meetings.
+        int ma = -1, idx = -1;
+        for (int j = 0; j < n; j++) {
+            if (ma < ans[j]) {
+                ma = ans[j];
+                idx = j;
+            }
+        }
+
+        // Return the index of the room with the maximum meetings.
+        return idx;
+    }
+};

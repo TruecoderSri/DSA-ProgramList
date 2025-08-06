@@ -1,0 +1,39 @@
+class Solution {
+public:
+   
+    void func(vector<int> &lps, string a) {
+      
+        int i = 0, j = 1;
+
+        while (j < a.length()) {
+            if (a[i] == a[j]) {
+                i++;
+                lps[j] = i;
+                j++;
+            } else {
+                if (i == 0) {
+                    j++;
+                } else {
+                    i = lps[i - 1];
+                }
+            }
+        }
+    }
+
+    string shortestPalindrome(string s) {
+
+        string res = s;
+        reverse(res.begin(), res.end());
+        string a = s + '#' + res;
+
+        vector<int> lps(a.size(), 0);
+
+        func(lps, a);
+        int i = lps[a.length() - 1];
+        string temp = s.substr(i);
+
+        reverse(temp.begin(), temp.end());
+
+        return temp + s;
+    }
+};

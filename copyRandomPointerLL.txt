@@ -1,0 +1,44 @@
+  Node *copyList(Node *head) {
+        // Write your code here
+        
+        Node *curr = head;
+        
+        // Insert copy nodes in between OG nodes
+        
+        while(curr!=NULL){
+            Node *temp = new Node(curr->data);
+            temp->next=curr->next;
+            curr->next = temp;
+            curr =temp->next;
+        }
+        
+        // Now check random pointers
+        
+        curr=head;
+        
+        while(curr!=NULL){
+            
+           if(curr->random!=NULL){
+               curr->next->random =curr->random->next;
+           }
+           curr=curr->next->next;
+        }
+        
+        // Segregate the 2 lists
+        
+        curr=head;
+        Node *newHead = curr->next;
+        Node *copy= newHead;
+        
+        while(curr!=NULL){
+            curr->next= curr->next->next;
+            
+            if(copy->next!=NULL){
+                copy->next = copy->next->next;
+            }
+            copy=copy->next;
+            curr=curr->next;
+        }
+        
+        return newHead;
+    }

@@ -1,0 +1,44 @@
+Eg n=2
+
+Output:
+res={
+"10","11"
+}
+
+void solve(int ones,int zeroes,string op,int n,vector<string>&res){
+        
+        if(n==0){
+            res.push_back(op);
+            return;
+        }
+
+Case 1: Just add 1 everytime
+        
+        string op1=op;
+        op1.push_back('1');
+        solve(ones+1,zeroes,op1,n-1,res);
+        
+Case 2: Adding zero depends upon condition
+        if(ones>zeroes){
+            
+          string op2=op;
+          op2.push_back('0');
+          solve(ones,zeroes + 1,op2,n-1,res);    
+            
+        }
+        
+        return;
+        
+    }
+
+	vector<string> NBitBinary(int n)
+	{
+	    // Your code goes here
+	    vector<string> res;
+	    int ones=0,zero=0;
+	    string op="";
+	   solve(ones,zero,op,n,res);
+	    
+	   return res; 
+	    
+	}

@@ -1,0 +1,48 @@
+class Solution {
+public:
+   typedef pair<int,int> P;
+    int shortestPathLength(vector<vector<int>>& graph) {
+        
+       int n=graph.size();
+       
+        if(n==0 ||n==1)  return 0;
+       queue<P> q;
+       set<P> vis;
+
+    //    BFS for all nodes
+       for(int i=0;i<n;i++){
+          int maskValue=(1<<i);
+          q.push({i,maskValue});
+          vis.insert({i,maskValue});
+       }
+        
+        int allVisited= (1<<n)-1;     // 1111
+        int path=0;
+
+        while(!q.empty()){
+            int size=q.size();
+            path++;
+
+            while(size--){
+               auto it=q.front();
+               q.pop();
+               
+               int node=it.first;
+               int currmask=it.second;
+               
+               for(auto adj:graph[node]){
+
+                    // as in 1->0010 and then 1->0 implies it becomes 0011 and so on likewise    
+                   int nextmask=currmask | (1<<adj);
+                   if(nextmask==allVisited) return path;
+
+                   if(vis.find({adj,nextmask})==vis.end()){
+                       vis.insert({adj,nextmask});
+                       q.push({adj,nextmask});
+                   }
+               }
+            }
+        }
+      return -1;
+    }
+};
